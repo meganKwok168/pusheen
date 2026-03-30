@@ -6,13 +6,12 @@ P04: Makers Makin' It, Act II -- The Seequel
 * Each entry should begin with the following format: firstL -- TIMESTAMP ( e.g.: topherM -- 1999-12-31 23:59 )
 * Most recent entry at the bottom, separated from previous with a newline
 
-firstL -- TIMESTAMP (temp entry for format)
-LABEL
+meganK -- 2026-03-30 07:28
+Design Doc Revisions
 * NEW CHANGES:
-    -
-    -
-    -
+    - revised component map arrows
+    - added missing components
+    - added section for data.js / js files
 * ERRORS/BUGS:
-    -
-    -
-    -
+    - n/a
+

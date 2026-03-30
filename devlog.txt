@@ -7,11 +7,9 @@ P04: Makers Makin' It, Act II -- The Seequel
 * Most recent entry at the bottom, separated from previous with a newline
 
 meganK -- 2026-03-30 07:28
-Design Doc Revisions
+INITIAL DD REVIEW
 * NEW CHANGES:
     - revised component map arrows
     - added missing components
     - added section for data.js / js files
-* ERRORS/BUGS:
-    - n/a
 

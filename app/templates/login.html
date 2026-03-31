@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<html>
+
+  <head>
+
+    <title> LOGIN </title>
+
+    <!-- CUSTOM CSS -->
+    <style>
+    </style>
+
+  </head>
+
+  <body>
+
+    <h1>Login</h1>
+
+    <br>
+
+    <form method='POST' action="/login">
+      <p>
+        {{ error | safe }}
+      </p>
+      <input type="text" name="username" placeholder="USERNAME" required>
+      <br>
+      <input type="password" name="password" placeholder="PASSWORD" required>
+      <br><br>
+      <input type="submit" name="sub1" class="sub1" value="Submit">
+    </form>
+
+    {{ error }}
+
+    <!-- TAILWIND -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  </body>
+
+</html>

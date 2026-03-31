@@ -13,3 +13,8 @@ INITIAL DD REVIEW
     - added missing components
     - added section for data.js / js files
 
+joyceL -- 2026-03-30 22:34
+FLASK APP AND README
+* NEW CHANGES:
+    - Created a basic working app, served locally with Flask
+    - Added a sumamry of project to root README

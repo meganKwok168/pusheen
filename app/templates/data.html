@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Visualization</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='styles.css')}}">
+</head>
+<body>
+    <h2>{{ Limit }} visualization</h2>
+    <h2>{{ Specification }} v. {{ Metric }}</h2>
+    {{ graph|safe }}
+    <form action="/data">
+        <input type="text", name="limit" id="limit" placeholder="What data do you want to limit your inquiry to?" required>
+        <input type="text" name="specification" id="specification" placeholder="Enter a specification" required>
+        <input type="text" name="metric" id="metric" placeholder="Enter a Metric" required>
+        <button type="submit">Submit</button>
+    </form>
+    
+</body>
+</html>

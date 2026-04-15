@@ -28,60 +28,68 @@
         const metric = {{ Metric | tojson }};
         const specification = {{ Specification | tojson }};
 
-        fetch(`/data?limit=${encodeURIComponent(limit)}&metric=${encodeURIComponent(metric)}&specification=${encodeURIComponent(specification)}`)
+        fetch(`/api/data?limit=${encodeURIComponent(limit)}&metric=${encodeURIComponent(metric)}&specification=${encodeURIComponent(specification)}`)
             .then(res => res.json())
             .then(data => {
                 drawScatter(data.scatter, specification, metric, "#scatter", "All Data");
                 drawScatter(data.avg, specification, metric, "#avg", "Averages");
             });
+function drawScatter(data, x, y, container, title) {
+    const width = 600, height = 400;
+    const margin = { top: 30, right: 20, bottom: 80, left: 60 };
 
-        function drawScatter(data, x, y, container, title) {
-            const width = 600, height = 400;
-            const margin = { top: 30, right: 20, bottom: 50, left: 60 };
+    const svg = d3.select(container).append("svg")
+        .attr("width", width).attr("height", height);
 
-            const svg = d3.select(container).append("svg")
-                .attr("width", width).attr("height", height);
+    svg.append("text")
+        .attr("x", width / 2).attr("y", margin.top / 2)
+        .attr("text-anchor", "middle")
+        .text(title);
 
-            svg.append("text")
-                .attr("x", width / 2).attr("y", margin.top / 2)
-                .attr("text-anchor", "middle")
-                .text(title);
+    const isText = typeof data[0][x] === "string";
 
-            const xScale = d3.scaleLinear()
-                .domain(d3.extent(data, d => d[x]))
-                .range([margin.left, width - margin.right]);
+    const xScale = isText
+        ? d3.scaleBand()
+            .domain(data.map(d => d[x]))
+            .range([margin.left, width - margin.right])
+            .padding(0.2)
+        : d3.scaleLinear()
+            .domain(d3.extent(data, d => d[x]))
+            .range([margin.left, width - margin.right]);
 
-            const yScale = d3.scaleLinear()
-                .domain(d3.extent(data, d => d[y]))
-                .range([height - margin.bottom, margin.top]);
+    const yScale = d3.scaleLinear()
+        .domain([0, d3.max(data, d => d[y])])
+        .range([height - margin.bottom, margin.top]);
 
-            svg.selectAll("circle")
-                .data(data)
-                .enter().append("circle")
-                .attr("cx", d => xScale(d[x]))
-                .attr("cy", d => yScale(d[y]))
-                .attr("r", 4)
-                .attr("fill", "steelblue")
-                .attr("opacity", 0.6);
+    svg.selectAll("circle")
+        .data(data)
+        .enter().append("circle")
+        .attr("cx", d => isText ? xScale(d[x]) + xScale.bandwidth() / 2 : xScale(d[x]))
+        .attr("cy", d => yScale(d[y]))
+        .attr("r", 4)
+        .attr("fill", "steelblue")
+        .attr("opacity", 0.6);
 
-            svg.append("g")
-                .attr("transform", `translate(0, ${height - margin.bottom})`)
-                .call(d3.axisBottom(xScale));
+    svg.append("g")
+        .attr("transform", `translate(0, ${height - margin.bottom})`)
+        .call(d3.axisBottom(xScale))
+        .selectAll("text")
+        .attr("transform", "rotate(-35)")
+        .style("text-anchor", "end");
 
-            svg.append("g")
-                .attr("transform", `translate(${margin.left}, 0)`)
-                .call(d3.axisLeft(yScale));
+    svg.append("g")
+        .attr("transform", `translate(${margin.left}, 0)`)
+        .call(d3.axisLeft(yScale));
 
-            // axis labels
-            svg.append("text")
-                .attr("x", width / 2).attr("y", height - 5)
-                .attr("text-anchor", "middle").text(x);
+    svg.append("text")
+        .attr("x", width / 2).attr("y", height - 5)
+        .attr("text-anchor", "middle").text(x);
 
-            svg.append("text")
-                .attr("transform", "rotate(-90)")
-                .attr("x", -height / 2).attr("y", 15)
-                .attr("text-anchor", "middle").text(y);
-        }
+    svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("x", -height / 2).attr("y", 15)
+        .attr("text-anchor", "middle").text(y);
+}
     </script>
 </body>
 </html>

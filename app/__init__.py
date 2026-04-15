@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from flask import session, redirect
 from data import makeGraphic
 app = Flask(__name__)

@@ -1,9 +1,8 @@
-import csv
-from decimal import Decimal
+#import csv
+#from decimal import Decimal
 import pandas as pd
-# import matplotlib.pyplot as plt
-import plotly.express as px
-import numpy as np
+
+instaCSV = pd.read_csv('static/insta.csv')
 
 #listing genres
 def listGenres():
@@ -42,17 +41,23 @@ def engagementRate():
 # engagementRate()
 
 def makeGraphic(limit, specification, metric):   
-    df = pd.read_csv('static/insta.csv')
+    global instaCSV
+    df = instaCSV.copy()
     if limit != "General":
         big=limit.split('/')[0]
         small=limit.split('/')[1]
         mylist = []
         filtered_df = df[df[big]==small]
         df = filtered_df
-    fig = px.scatter(df,x=specification,y=metric, title=limit)
-    avg_df = df.groupby(specification)[metric].mean().reset_index()
-    avgFig = px.scatter(avg_df,x=specification,y=metric, title=f'{limit} Average')
-    return (fig.to_html(full_html=False) + avgFig.to_html(full_html=False))
+#    fig = px.scatter(df,x=specification,y=metric, title=limit)
+#    avg_df = df.groupby(specification)[metric].mean().reset_index()
+#    avgFig = px.scatter(avg_df,x=specification,y=metric, title=f'{limit} Average')
+#    return (fig.to_html(full_html=False) + avgFig.to_html(full_html=False))
+    scatter = df[[specification, metric]].dropna().to_dict(orient='records')
+    avg = df.groupby(specification)[metric].mean().reset_index()
+    avg_data = avg.to_dict(orient='records')
+    
+    return {"scatter": scatter, "avg": avg_data}
 # makeGraphic('reach','content_category')
 
 if __name__=="__main__":

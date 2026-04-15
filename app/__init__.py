@@ -17,6 +17,14 @@ def getGraphic():
     data = makeGraphic(limit, specification, metric)
     return render_template("data.html", graph=data, Metric = metric, Specification = specification, Limit=limit)
 
+@app.route('/api/data')
+def getGraphicData():
+    limit = request.args.get('limit')
+    metric = request.args.get('metric')
+    specification = request.args.get('specification')
+    data = makeGraphic(limit, specification, metric)
+    return jsonify(data)
+
 if __name__ == "__main__":
     app.debug = True
     app.run()

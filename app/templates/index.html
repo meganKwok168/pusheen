@@ -5,15 +5,133 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Get Data Visualization</title>
     <link rel="stylesheet" href="{{url_for('static',filename='styles.css')}}">
+
+    <style>
+
+      body {
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        padding: 0;
+        padding-top: 8%;
+        margin: 0;
+
+        height: 100vh;
+      }
+
+      #cont {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1em;
+
+        width: 60vw;
+        height: 100%;
+
+        padding: 3% 5% 5% 5%;
+        border-radius: 10% 10% 0 0;
+
+        background-color: #242424;
+        box-shadow: rgba(100, 100, 100, 0.8) 0 0 45px 5px;
+      }
+
+      input[type="text"] {
+        font-size: 60%;
+      }
+
+      button[type="submit"] {
+        font-size: 80%;
+        width: 50%;
+
+        align-self: center;
+
+        margin-top: 2%;
+      }
+
+      button[type="submit"]:hover {
+        filter: brightness(0.65);
+      }
+
+      #camera {
+        grid-area: 1/1;
+        pointer-events: none;
+
+        width: 55%;
+        height: 230%;
+
+        margin-left: 78%;
+
+        border-radius: 20%;
+
+        background-color: #191919;
+      }
+
+      .lens {
+        background-color: #888888;
+
+        display: flex;
+        width: 90%;
+        height: 85%;
+
+        place-self: center;
+
+        border-radius: 35%;
+      }
+
+      .innerLens {
+        background-color: #444444;
+
+        display: block;
+        margin: auto;
+
+        width: 85%;
+        height: 80%;
+
+        border-radius: 35%;
+      }
+    </style>
 </head>
 <body>
-    <h2>Get Data Visualization</h2>
-    <form action="/data">
-        <input type="text", name="limit" id="limit" placeholder="What data do you want to limit your inquiry to?" required>
-        <input type="text" name="specification" id="specification" placeholder="Enter a specification" required>
-        <input type="text" name="metric" id="metric" placeholder="Enter a Metric" required>
-        <button type="submit">Submit</button>
-    </form>
-    
+    <div id='cont'>
+      <div id="gridCont" style="display:grid;">
+        <div id="camera" style="display:grid; padding: 2%;">
+          <div class="lens" style="grid-area:1/2">
+            <div class="innerLens" style="display:grid; padding-top: 10%;">
+                <div style="background-color: #f4f4f4; grid-area:1/2; border-radius:45%; width: 65%; height: 70%;"></div>
+                <div style="grid-area:2/2"></div>
+            </div>
+          </div>
+          <div class="lens" style="grid-area:2/1">
+            <div class="innerLens" style="padding-top: 10%;"></div>
+          </div>
+        </div>
+
+        <h2 style="margin-top: 13%; grid-area: 1/1;">Get Data Visualization</h2>
+      </div>
+
+      <form action="/data" style="display:flex; flex-direction:column; gap:0.5em; width:50%;">
+          <input onclick="big(this)" type="text" name="limit" id="limit" placeholder="What data do you want to limit your inquiry to?" required>
+          <input onclick="big(this)" type="text" name="specification" id="specification" placeholder="Enter a specification" required>
+          <input onclick="big(this)" type="text" name="metric" id="metric" placeholder="Enter a Metric" required>
+          <button type="submit">Submit</button>
+      </form>
+    </div>
+
+    <script>
+
+      function big(elem) {
+        elems = document.querySelectorAll('input[type="text"]');
+
+        elems.forEach(e => {
+          if (e != elem) e.style.transform = 'scale(95%)';
+        });
+
+        elem.style.transform = 'scale(110%)';
+      }
+    </script>
+
 </body>
 </html>

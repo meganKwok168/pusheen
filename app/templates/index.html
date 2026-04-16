@@ -55,62 +55,12 @@
         filter: brightness(0.65);
       }
 
-      #camera {
-        grid-area: 1/1;
-        pointer-events: none;
-
-        width: 55%;
-        height: 230%;
-
-        margin-left: 78%;
-
-        border-radius: 20%;
-
-        background-color: #191919;
-      }
-
-      .lens {
-        background-color: #888888;
-
-        display: flex;
-        width: 90%;
-        height: 85%;
-
-        place-self: center;
-
-        border-radius: 35%;
-      }
-
-      .innerLens {
-        background-color: #444444;
-
-        display: block;
-        margin: auto;
-
-        width: 85%;
-        height: 80%;
-
-        border-radius: 35%;
-      }
     </style>
 </head>
 <body>
     <div id='cont'>
-      <div id="gridCont" style="display:grid;">
-        <div id="camera" style="display:grid; padding: 2%;">
-          <div class="lens" style="grid-area:1/2">
-            <div class="innerLens" style="display:grid; padding-top: 10%;">
-                <div style="background-color: #f4f4f4; grid-area:1/2; border-radius:45%; width: 65%; height: 70%;"></div>
-                <div style="grid-area:2/2"></div>
-            </div>
-          </div>
-          <div class="lens" style="grid-area:2/1">
-            <div class="innerLens" style="padding-top: 10%;"></div>
-          </div>
-        </div>
 
-        <h2 style="margin-top: 13%; grid-area: 1/1;">Get Data Visualization</h2>
-      </div>
+      <h2 style="margin-top: 13%;">Get Data Visualization</h2>
 
       <form action="/data" style="display:flex; flex-direction:column; gap:0.5em; width:50%;">
           <input onfocus="big(this)" type="text" name="limit" id="limit" placeholder="What data do you want to limit your inquiry to?" required>
@@ -118,6 +68,7 @@
           <input onfocus="big(this)" type="text" name="metric" id="metric" placeholder="Enter a Metric" required>
           <button type="submit">Submit</button>
       </form>
+
     </div>
 
     <!-- CUSTOM JS -->

@@ -113,12 +113,54 @@
       </div>
 
       <form action="/data" style="display:flex; flex-direction:column; gap:0.5em; width:50%;">
-          <input onclick="big(this)" type="text" name="limit" id="limit" placeholder="What data do you want to limit your inquiry to?" required>
-          <input onclick="big(this)" type="text" name="specification" id="specification" placeholder="Enter a specification" required>
-          <input onclick="big(this)" type="text" name="metric" id="metric" placeholder="Enter a Metric" required>
+          <input onfocus="big(this)" type="text" name="limit" id="limit" placeholder="What data do you want to limit your inquiry to?" required>
+          <input onfocus="big(this)" type="text" name="specification" id="specification" placeholder="Enter a specification" required>
+          <input onfocus="big(this)" type="text" name="metric" id="metric" placeholder="Enter a Metric" required>
           <button type="submit">Submit</button>
       </form>
     </div>
+
+    <!-- CUSTOM JS -->
+    <!-- <script type="module">
+      fetch('/static/svg/phone.svg')
+        .then(r => r.text())
+        .then(svgText => {
+          document.getElementById('map-container').innerHTML = svgText;
+
+          let selected = null;
+
+          document.querySelectorAll('#map-container path[data-name]').forEach(path => {
+            path._origFill = path.style.fill;
+            path.addEventListener('mouseenter', () => {
+              if (path !== selected) path.style.fill = 'gray';
+            });
+            path.addEventListener('mouseleave', () => {
+              if (path !== selected) path.style.fill = path._origFill;
+            });
+            path.addEventListener('click', () => {
+              if (selected) selected.style.fill = selected._origFill;
+              selected = path;
+              path.style.fill = 'red';
+
+              const stateName = path.getAttribute('data-name');
+              document.getElementById('state-name-input').value = stateName;
+              document.getElementById('game-state-name-input').value = stateName;
+              document.getElementById('start-btn').disabled = false;
+              document.getElementById("state-select-form").submit();
+            });
+          });
+
+          const alreadySelected = "{{ state }}";
+          if (alreadySelected) {
+            document.querySelectorAll('#map-container path[data-name]').forEach(path => {
+              if (path.getAttribute('data-name') === alreadySelected) {
+                path.style.fill = 'red';
+                selected = path;
+              }
+            });
+          }
+        });
+    </script> -->
 
     <script>
 
@@ -131,6 +173,7 @@
 
         elem.style.transform = 'scale(110%)';
       }
+
     </script>
 
 </body>

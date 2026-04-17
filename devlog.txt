@@ -19,6 +19,12 @@ FLASK APP AND README
     - Created a basic working app, served locally with Flask
     - Added a sumamry of project to root README
 
+joyceL -- 2026-04-16 11:43
+CSS AND SVG
+* NEW CHANGES:
+		- Completed basic set up and small JS for index.html
+		- Begin set up SVG object to enhance site appearance
+
 HOME STRETCH CHECKLIST:
 ------------------------------------
 * set up mongodb and connect relevant csvs :: Evan, Sophia

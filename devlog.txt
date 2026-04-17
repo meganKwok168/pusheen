@@ -18,3 +18,11 @@ FLASK APP AND README
 * NEW CHANGES:
     - Created a basic working app, served locally with Flask
     - Added a sumamry of project to root README
+
+HOME STRETCH CHECKLIST:
+------------------------------------
+* set up mongodb and connect relevant csvs :: Evan, Sophia
+* adapt code to accomodate mongo usage :: Evan, Megan
+* CSS :: Sophia, Joyce
+* UI/UX :: Megan, Artemis
+====================================

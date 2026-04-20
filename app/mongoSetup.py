@@ -5,7 +5,12 @@ from pymongo import MongoClient
 import kagglehub
 from kagglehub import KaggleDatasetAdapter
 
-mongo = MongoClient("mongodb://localhost:27017")
+client = MongoClient("mongodb://localhost:27017")
+mongo = client["database"]
+
+mongo.drop_collection("users")
+mongo.drop_collection("creators")
+mongo.drop_collection("posts")
 
 mongo.create_collection("users")
 mongo.create_collection("creators")
@@ -17,28 +22,27 @@ mongo.create_collection("posts")
 file_path = "Instagram_Analytics.csv"
 
 # Load the latest version
-df = kagglehub.load_dataset(
+df = kagglehub.dataset_load(
   KaggleDatasetAdapter.PANDAS,
   "kundanbedmutha/instagram-analytics-dataset",
   file_path,
 )
 
 for data in df.itertuples(index=False):
-    mongo.creators.updateOne(
+    mongo.creators.update_one(
         { "_id": data[1] },
         {
             "$push": { "posts": data[0] },
             "$setOnInsert": {
                 "_id": data[1],
                 "account_type": data[2],
-                "follower_count": data[3],
-                "posts": [data[0]]
+                "follower_count": data[3]
             }
         },
-        { upsert: true }
+        upsert=True
     )
 
-    mongo.posts.insertOne(
+    mongo.posts.insert_one(
         {
             "_id": data[0],
             "account_id": data[1],

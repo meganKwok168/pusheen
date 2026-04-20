@@ -4,18 +4,31 @@ import pandas as pd
 
 instaCSV = pd.read_csv('static/insta.csv')
 
+from pymongo import MongoClient
+
+client = MongoClient("mongodb://localhost:27017")
+mongo = client["database"]
+
 #listing genres
+#def listGenres():
+#    genres = {}
+#    with open('static/insta.csv', newline='') as f:
+#        reader = csv.DictReader(f)
+#       for row in reader:
+#            genre = row['content_category']
+#            print(genre)
+#            if genre not in genres:
+#                genres[genre] = 0
+#            genres[genre] += 1
+#    print(genres)
+#listGenres()
+
 def listGenres():
     genres = {}
-    with open('static/insta.csv', newline='') as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            genre = row['content_category']
-            print(genre)
-            if genre not in genres:
-                genres[genre] = 0
-            genres[genre] += 1
-    print(genres)
+    pipeline = { "$group": { "genre": "$content_type", "count": { "$sum": 1 } } }
+    aggCursor = mongo.posts.aggregate(pipeline)
+    for document in aggCursor:
+        genres[document["genre"]] = document["count"]-1
 #listGenres()
 
 #finding out what the engagement rate means --> metric used: impressions
@@ -38,7 +51,7 @@ def engagementRate():
                     engagementRate = temp
                     whichOne = m
             print("true: "+str(trueRate)+" | calc'ed: "+str(round(engagementRate,4))+" | "+whichOne)
-# engagementRate()
+#engagementRate()
 
 def makeGraphic(limit, specification, metric):   
     global instaCSV

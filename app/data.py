@@ -108,7 +108,7 @@ def makeGraphic(limit, specification, metric):
         filter = limit.split('/')[1]
         pipeline = [
             { "$match": { filterType: filter } },
-            { "$group": { specification: "$"+specification, metric: { "$sum": "$"+metric } } }
+            { "$group": { specification: str("$"+specification), metric: { "$sum": str("$"+metric) } } }
         ]
     else:
         pipeline = [

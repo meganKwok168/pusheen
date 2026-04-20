@@ -58,7 +58,7 @@ def login():
         password = request.form["password"]
         userData = mongo.users.find_one({"_id": username}, {"password":1})
         if userData:
-            if password_form == userData["password"]:
+            if password == userData["password"]:
                 session["username"] = username
                 return redirect(url_for('index'))
             else:

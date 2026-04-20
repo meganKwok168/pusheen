@@ -25,6 +25,11 @@ CSS AND SVG
 		- Completed basic set up and small JS for index.html
 		- Begin set up SVG object to enhance site appearance
 
+sophiaC -- 2026-04-16 11:43
+CSS 
+* NEW CHANGES: 
+		- Update Css for Login and Createaccount 
+
 HOME STRETCH CHECKLIST:
 ------------------------------------
 * set up mongodb and connect relevant csvs :: Evan, Sophia

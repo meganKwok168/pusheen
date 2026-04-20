@@ -106,14 +106,14 @@ def makeGraphic(limit, specification, metric):
     if limit != "General":
         filterType = limit.split('/')[0]
         filter = limit.split('/')[1]
-        pipeline = {[
+        pipeline = [
             { "$match": { filterType: filter } },
             { "$group": { specification: "$"+specification, metric: { "$sum": "$"+metric } } }
-        ]}
+        ]
     else:
-        pipeline = {[
+        pipeline = [
             { "$group": { specification: "$"+specification, metric: { "$sum": "$"+metric } } }
-        ]}
+        ]
     data = list(mongo.posts.aggregate(pipeline))
 
     avgData = [{specification: 0.0}]

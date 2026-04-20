@@ -16,8 +16,6 @@ mongo.create_collection("users")
 mongo.create_collection("creators")
 mongo.create_collection("posts")
 
-
-
 # Set the path to the file you'd like to load
 file_path = "Instagram_Analytics.csv"
 

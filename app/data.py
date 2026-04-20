@@ -82,7 +82,7 @@ def engagementRate():
         print("true: " + trueRate + " | calc'ed: " + round(engagementRate,4) + " | " + bestMetric)
 #engagementRate
 
-# def makeGraphic(limit, specification, metric):   
+# def makeGraphic(limit, specification, metric):
 #     global instaCSV
 #     df = instaCSV.copy()
 #     if limit != "General":
@@ -98,7 +98,7 @@ def engagementRate():
 #     scatter = df[[specification, metric]].dropna().to_dict(orient='records')
 #     avg = df.groupby(specification)[metric].mean().reset_index()
 #     avg_data = avg.to_dict(orient='records')
-    
+
 #     return {"scatter": scatter, "avg": avg_data}
 # # makeGraphic('reach','content_category')
 
@@ -106,16 +106,21 @@ def makeGraphic(limit, specification, metric):
     if limit != "General":
         filterType = limit.split('/')[0]
         filter = limit.split('/')[1]
-        data = mongo.posts.find({filterType: filter}, {"_id": 0, metric: 1})
+        pipeline = {[
+            { "$match": { filterType: filter } },
+            { "$group": { specification: "$"+specification, metric: { "$sum": "$"+metric } } }
+        ]}
     else:
-        data = mongo.posts.find({}, {"_id": 0, specification: 1, metric: 1})
-    data = list(data)
-    
+        pipeline = {[
+            { "$group": { specification: "$"+specification, metric: { "$sum": "$"+metric } } }
+        ]}
+    data = list(mongo.posts.aggregate(pipeline))
+
     avgData = [{specification: 0.0}]
     for document in data:
         avgData[0][specification] = avgData[0][specification] + document[metric]
     avgData[0][specification] = avgData[0][specification] / len(data)
-    
+
     return {"scatter": data, "avg": avgData}
 # makeGraphic('reach','content_category')
 

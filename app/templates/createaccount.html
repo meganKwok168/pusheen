@@ -1,0 +1,28 @@
+<html>
+<head>
+    <title>Sign Up</title>
+</head>
+<body>
+    <div class="auth-container">
+        <h1>Create Account</h1>
+
+        <form action="/createaccount" method="post">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="submit" value="Sign Up">
+        </form>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <p class="flashes {{ category }}">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="auth-footer">
+            <p>Already have an account? <a href="/" style="color: #333; text-decoration: underline;">Login</a></p>
+        </div>
+    </div>
+</body>
+</html>

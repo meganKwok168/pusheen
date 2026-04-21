@@ -119,6 +119,7 @@ def makeGraphic(limit, specification, metric):
     data = list(aggCursor)
     for document in data:
         document[specification] = document.pop("_id")
+        document[metric] = document.pop(metric)
 
     avgData = copy.deepcopy(data)
     for document in avgData:

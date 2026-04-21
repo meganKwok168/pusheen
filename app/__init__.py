@@ -47,7 +47,7 @@ def set_user():
 @app.route("/logout")
 def logout():
     session.pop('username', None)
-    return render_template('login.html')
+    return redirect(url_for('login'))
 
 #main
 @app.route('/index', methods=['GET', 'POST'])

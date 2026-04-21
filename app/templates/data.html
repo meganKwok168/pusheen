@@ -103,6 +103,8 @@ function drawScatter(data, x, y, container, title) {
     <link rel="stylesheet" href="{{url_for('static',filename='styles.css')}}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.8.1/dist/css/foundation.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.min.css" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.8.1/dist/js/foundation.min.js" crossorigin="anonymous"></script>
     <style>
         .icon-bar {
             position: fixed;
@@ -132,8 +134,6 @@ function drawScatter(data, x, y, container, title) {
     </style>
 </head>
 <body>
-    <h2>{{ Limit }} visualization</h2>
-    <h2>{{ Specification }} v. {{ Metric }}</h2>
     <div class="icon-bar">
         {% if session['username'] %}
 		 <a href="/logout"><i class="fi-power"></i> Logout</a>
@@ -142,6 +142,8 @@ function drawScatter(data, x, y, container, title) {
         <a href="/createaccount"><i class="fi-clipboard-pencil"></i> Sign Up</a>
         {% endif %}
     </div>
+    <h2>{{ Limit }} visualization</h2>
+    <h2>{{ Specification }} v. {{ Metric }}</h2>
 
   <div id="scatter"></div>
     <div id="avg"></div>

@@ -112,7 +112,7 @@ def makeGraphic(limit, specification, metric):
         ]
     else:
         pipeline = [
-            { "$group": { specification: "$"+specification, metric: { "$sum": "$"+metric } } }
+            { "$group": { specification: str("$"+specification), metric: { "$sum": str("$"+metric) } } }
         ]
     data = list(mongo.posts.aggregate(pipeline))
 

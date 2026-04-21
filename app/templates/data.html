@@ -118,7 +118,6 @@ function drawScatter(data, x, y, container, title) {
 
 <script src="https://d3js.org/d3.v7.min.js"></script>
     <script>
-        // inject Flask variables into JS safely
         const limit = {{ Limit | tojson }};
         const metric = {{ Metric | tojson }};
         const specification = {{ Specification | tojson }};

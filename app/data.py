@@ -4,6 +4,7 @@
 
 # instaCSV = pd.read_csv('static/insta.csv')
 
+import copy
 from pymongo import MongoClient
 
 client = MongoClient("mongodb://localhost:27017")
@@ -82,25 +83,25 @@ def engagementRate():
         print("true: " + trueRate + " | calc'ed: " + round(engagementRate,4) + " | " + bestMetric)
 #engagementRate
 
-# def makeGraphic(limit, specification, metric):
-#     global instaCSV
-#     df = instaCSV.copy()
-#     if limit != "General":
-#         big=limit.split('/')[0]
-#         small=limit.split('/')[1]
-#         mylist = []
-#         filtered_df = df[df[big]==small]
-#         df = filtered_df
-# #    fig = px.scatter(df,x=specification,y=metric, title=limit)
-# #    avg_df = df.groupby(specification)[metric].mean().reset_index()
-# #    avgFig = px.scatter(avg_df,x=specification,y=metric, title=f'{limit} Average')
-# #    return (fig.to_html(full_html=False) + avgFig.to_html(full_html=False))
-#     scatter = df[[specification, metric]].dropna().to_dict(orient='records')
-#     avg = df.groupby(specification)[metric].mean().reset_index()
-#     avg_data = avg.to_dict(orient='records')
+def makeGraphic(limit, specification, metric):
+    global instaCSV
+    df = instaCSV.copy()
+    if limit != "General":
+        big=limit.split('/')[0]
+        small=limit.split('/')[1]
+        mylist = []
+        filtered_df = df[df[big]==small]
+        df = filtered_df
+#    fig = px.scatter(df,x=specification,y=metric, title=limit)
+#    avg_df = df.groupby(specification)[metric].mean().reset_index()
+#    avgFig = px.scatter(avg_df,x=specification,y=metric, title=f'{limit} Average')
+#    return (fig.to_html(full_html=False) + avgFig.to_html(full_html=False))
+    scatter = df[[specification, metric]].dropna().to_dict(orient='records')
+    avg = df.groupby(specification)[metric].mean().reset_index()
+    avg_data = avg.to_dict(orient='records')
 
-#     return {"scatter": scatter, "avg": avg_data}
-# # makeGraphic('General','content_category','reach')
+    return {"scatter": scatter, "avg": avg_data}
+# makeGraphic('General','content_category','reach')
 
 def makeGraphic(limit, specification, metric):
     if limit != "General":
@@ -115,17 +116,17 @@ def makeGraphic(limit, specification, metric):
             { "$group": { "_id": ("$"+specification), metric: { "$sum": ("$"+metric) } } }
         ]
     aggCursor = list(mongo.posts.aggregate(pipeline))
+    data = list(aggCursor)
+    for document in data:
+        document[specification] = document.pop("_id")
 
-    data = []
-    avgData = []
-    for document in aggCursor:
-        data.append({document["_id"]: document[metric]})
-
+    avgData = copy.deepcopy(data)
+    for document in avgData:
         if limit != "General":
             count = mongo.posts.count_documents({filterType: filter, specification: document["_id"]})
         else:
             count = mongo.posts.count_documents({specification: document["_id"]})
-        avgData.append({document["_id"]: (document[metric] / count)})
+        document[metric] = (document[metric] / count)
 
     return {"scatter": data, "avg": avgData}
 # makeGraphic('General','content_category','reach')

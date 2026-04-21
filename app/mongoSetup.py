@@ -1,6 +1,3 @@
-#pip install pymongo
-#pip install kagglehub[pandas-datasets]
-
 from pymongo import MongoClient
 import kagglehub
 from kagglehub import KaggleDatasetAdapter

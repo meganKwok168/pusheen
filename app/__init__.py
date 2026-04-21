@@ -5,7 +5,7 @@ from data import makeGraphic
 from pymongo import MongoClient
 
 app = Flask(__name__)
-app.secret_key = os.urandom(24)
+app.secret_key = "aevfiyawvfgwuga"
 
 # DB_FILE = "database.db"
 

@@ -119,13 +119,13 @@ def makeGraphic(limit, specification, metric):
     data = []
     avgData = []
     for document in aggCursor:
-        data += {document["_id"]: document["metric"]}
+        data.append({document["_id"]: document[metric]})
 
         if limit != "General":
             count = mongo.posts.count_documents({filterType: filter, specification: document["_id"]})
         else:
             count = mongo.posts.count_documents({specification: document["_id"]})
-        avgData += {document["_id"]: (document[metric] / count)}
+        avgData.append({document["_id"]: (document[metric] / count)})
 
     return {"scatter": data, "avg": avgData}
 # makeGraphic('General','content_category','reach')

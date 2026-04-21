@@ -83,25 +83,25 @@ def engagementRate():
         print("true: " + trueRate + " | calc'ed: " + round(engagementRate,4) + " | " + bestMetric)
 #engagementRate
 
-def makeGraphic(limit, specification, metric):
-    global instaCSV
-    df = instaCSV.copy()
-    if limit != "General":
-        big=limit.split('/')[0]
-        small=limit.split('/')[1]
-        mylist = []
-        filtered_df = df[df[big]==small]
-        df = filtered_df
-#    fig = px.scatter(df,x=specification,y=metric, title=limit)
-#    avg_df = df.groupby(specification)[metric].mean().reset_index()
-#    avgFig = px.scatter(avg_df,x=specification,y=metric, title=f'{limit} Average')
-#    return (fig.to_html(full_html=False) + avgFig.to_html(full_html=False))
-    scatter = df[[specification, metric]].dropna().to_dict(orient='records')
-    avg = df.groupby(specification)[metric].mean().reset_index()
-    avg_data = avg.to_dict(orient='records')
+# def makeGraphic(limit, specification, metric):
+#     global instaCSV
+#     df = instaCSV.copy()
+#     if limit != "General":
+#         big=limit.split('/')[0]
+#         small=limit.split('/')[1]
+#         mylist = []
+#         filtered_df = df[df[big]==small]
+#         df = filtered_df
+# #    fig = px.scatter(df,x=specification,y=metric, title=limit)
+# #    avg_df = df.groupby(specification)[metric].mean().reset_index()
+# #    avgFig = px.scatter(avg_df,x=specification,y=metric, title=f'{limit} Average')
+# #    return (fig.to_html(full_html=False) + avgFig.to_html(full_html=False))
+#     scatter = df[[specification, metric]].dropna().to_dict(orient='records')
+#     avg = df.groupby(specification)[metric].mean().reset_index()
+#     avg_data = avg.to_dict(orient='records')
 
-    return {"scatter": scatter, "avg": avg_data}
-# makeGraphic('General','content_category','reach')
+#     return {"scatter": scatter, "avg": avg_data}
+# # makeGraphic('General','content_category','reach')
 
 def makeGraphic(limit, specification, metric):
     if limit != "General":
@@ -123,9 +123,9 @@ def makeGraphic(limit, specification, metric):
     avgData = copy.deepcopy(data)
     for document in avgData:
         if limit != "General":
-            count = mongo.posts.count_documents({filterType: filter, specification: document["_id"]})
+            count = mongo.posts.count_documents({filterType: filter, specification: document[specification]})
         else:
-            count = mongo.posts.count_documents({specification: document["_id"]})
+            count = mongo.posts.count_documents({specification: document[specification]})
         document[metric] = (document[metric] / count)
 
     return {"scatter": data, "avg": avgData}

@@ -114,10 +114,13 @@ def makeGraphic(limit, specification, metric):
         pipeline = [
             { "$group": { "_id": ("$"+specification), metric: { "$sum": ("$"+metric) } } }
         ]
-    data = list(mongo.posts.aggregate(pipeline))
+    aggCursor = list(mongo.posts.aggregate(pipeline))
 
+    data = []
     avgData = []
-    for document in data:
+    for document in aggCursor:
+        data += {document["_id"]: document["metric"]}
+
         if limit != "General":
             count = mongo.posts.count_documents({filterType: filter, specification: document["_id"]})
         else:

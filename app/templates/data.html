@@ -105,7 +105,8 @@ function drawScatter(data, x, y, container, title) {
 <body>
     <h2>{{ Limit }} visualization</h2>
     <h2>{{ Specification }} v. {{ Metric }}</h2>
-    {{ graph|safe }}
+  <div id="scatter"></div>
+    <div id="avg"></div>
     <form action="/data">
         <input type="text", name="limit" id="limit" placeholder="What data do you want to limit your inquiry to?" required>
         <input type="text" name="specification" id="specification" placeholder="Enter a specification" required>
@@ -117,7 +118,6 @@ function drawScatter(data, x, y, container, title) {
 
 <script src="https://d3js.org/d3.v7.min.js"></script>
     <script>
-        // inject Flask variables into JS safely
         const limit = {{ Limit | tojson }};
         const metric = {{ Metric | tojson }};
         const specification = {{ Specification | tojson }};

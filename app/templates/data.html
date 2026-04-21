@@ -13,7 +13,7 @@
 
     <div id="scatter"></div>
     <div id="avg"></div>
-    
+
     <form action="/data">
         <input type="text", name="limit" id="limit" placeholder="What data do you want to limit your inquiry to?" required>
         <input type="text" name="specification" id="specification" placeholder="Enter a specification" required>
@@ -105,7 +105,7 @@ function drawScatter(data, x, y, container, title) {
     </style>
 </head>
 <body>
-   <a href="/logout" style="color: #c9a8ff; text-decoration: none; margin: 0 10px;"> Logout </a> ✦ 
+   <a href="/logout" style="color: #c9a8ff; text-decoration: none; margin: 0 10px;"> Logout </a>
     <h2>{{ Limit }} visualization</h2>
     <h2>{{ Specification }} v. {{ Metric }}</h2>
 
@@ -117,7 +117,7 @@ function drawScatter(data, x, y, container, title) {
         <input type="text" name="metric" id="metric" placeholder="Enter a Metric" required>
         <button type="submit">Submit</button>
     </form>
-    
+
 
 
 <script src="https://d3js.org/d3.v7.min.js"></script>

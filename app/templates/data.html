@@ -101,47 +101,11 @@ function drawScatter(data, x, y, container, title) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Visualization</title>
     <link rel="stylesheet" href="{{url_for('static',filename='styles.css')}}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.8.1/dist/css/foundation.min.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.min.css" crossorigin="anonymous">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.8.1/dist/js/foundation.min.js" crossorigin="anonymous"></script>
     <style>
-        .icon-bar {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #333;
-            border-radius: 5px;
-            padding: 10px;
-            z-index: 100;
-        }
-
-        .icon-bar a {
-            display: block;
-            color: white;
-            padding: 10px;
-            text-align: center;
-            text-decoration: none;
-        }
-
-        .icon-bar a:hover {
-            background: #555;
-        }
-
-        .icon-bar i {
-            margin-right: 5px;
-        }
     </style>
 </head>
 <body>
-    <div class="icon-bar">
-        {% if session['username'] %}
-		 <a href="/logout"><i class="fi-power"></i> Logout</a>
-        {% else %}
-        <a href="/"><i class="fi-key"></i> Login</a>
-        <a href="/createaccount"><i class="fi-clipboard-pencil"></i> Sign Up</a>
-        {% endif %}
-    </div>
+   <a href="/logout" style="color: #c9a8ff; text-decoration: none; margin: 0 10px;"> Logout </a> ✦ 
     <h2>{{ Limit }} visualization</h2>
     <h2>{{ Specification }} v. {{ Metric }}</h2>
 

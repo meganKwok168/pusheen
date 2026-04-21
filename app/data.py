@@ -119,9 +119,9 @@ def makeGraphic(limit, specification, metric):
     avgData = []
     for document in data:
         if limit != "General":
-            count = Decimal(mongo.posts.count_documents({filterType: filter, specification: document["_id"]}))
+            count = mongo.posts.count_documents({filterType: filter, specification: document["_id"]})
         else:
-            count = Decimal(mongo.posts.count_documents({specification: document["_id"]}))
+            count = mongo.posts.count_documents({specification: document["_id"]})
         avgData += {document["_id"]: (document[metric] / count)}
 
     return {"scatter": data, "avg": avgData}

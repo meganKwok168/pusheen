@@ -100,7 +100,7 @@ def engagementRate():
 #     avg_data = avg.to_dict(orient='records')
 
 #     return {"scatter": scatter, "avg": avg_data}
-# # makeGraphic('reach','content_category')
+# # makeGraphic('General','content_category','reach')
 
 def makeGraphic(limit, specification, metric):
     if limit != "General":
@@ -108,21 +108,24 @@ def makeGraphic(limit, specification, metric):
         filter = limit.split('/')[1]
         pipeline = [
             { "$match": { filterType: filter } },
-            { "$group": { specification: str("$"+specification), metric: { "$sum": str("$"+metric) } } }
+            { "$group": { "_id": ("$"+specification), metric: { "$sum": ("$"+metric) } } }
         ]
     else:
         pipeline = [
-            { "$group": { specification: str("$"+specification), metric: { "$sum": str("$"+metric) } } }
+            { "$group": { "_id": ("$"+specification), metric: { "$sum": ("$"+metric) } } }
         ]
     data = list(mongo.posts.aggregate(pipeline))
 
-    avgData = [{specification: 0.0}]
+    avgData = []
     for document in data:
-        avgData[0][specification] = avgData[0][specification] + document[metric]
-    avgData[0][specification] = avgData[0][specification] / len(data)
+        if limit != "General":
+            count = Decimal(mongo.posts.count_documents({filterType: filter, specification: document["_id"]}))
+        else:
+            count = Decimal(mongo.posts.count_documents({specification: document["_id"]}))
+        avgData += {document["_id"]: (document[metric] / count)}
 
     return {"scatter": data, "avg": avgData}
-# makeGraphic('reach','content_category')
+# makeGraphic('General','content_category','reach')
 
 if __name__=="__main__":
     #run file in terminal

@@ -66,10 +66,11 @@ def getGraphic():
 
 @app.route('/api/data')
 def getGraphicData():
-    limit = request.args.get('limit')
+    limit1 = request.args.get('limit1')
+    limit2 = request.args.get('limit2')
     metric = request.args.get('metric')
     specification = request.args.get('specification')
-    data = makeGraphic(limit, specification, metric)
+    data = makeGraphic(limit1, limit2, specification, metric)
     return jsonify(data)
 
 if __name__ == "__main__":

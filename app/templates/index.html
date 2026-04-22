@@ -105,12 +105,15 @@ document.getElementById("specification").addEventListener("change",function(e){
 });
 
 document.getElementById("metric").addEventListener("change",function(e){
-    st=`<button type="submit" id="submitButton">Submit</button>`;
+    st=`<button type="button" id="submitButton">Submit</button>`;
     document.getElementById("soumettre").innerHTML=st;
-});
-
-document.getElementById("submitButton").addEventListener("change",function(e){
-    
+    document.getElementById("submitButton").addEventListener("click",function(e){
+        const limit1 = document.getElementById("limit1").value;
+        const limit2 = document.getElementById("limit2").value || "General";
+        const specification = document.getElementById("specification").value;
+        const metric = document.getElementById("metric").value;
+        window.location.href = `/data?limit1=${encodeURIComponent(limit1)}&limit2=${encodeURIComponent(limit2)}&specification=${encodeURIComponent(specification)}&metric=${encodeURIComponent(metric)}`;
+    });
 });
 
 function makeSecondLimit(limit){

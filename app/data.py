@@ -7,7 +7,7 @@ mongo = client["database"]
 #listing genres
 def listGenres():
     genres = {}
-    pipeline = { "$group": { "genre": "$content_type", "count": { "$sum": 1 } } }
+    pipeline = [{ "$group": { "_id": "$content_type", "count": { "$sum": 1 } } }]
     aggCursor = mongo.posts.aggregate(pipeline)
     for document in aggCursor:
         genres[document["genre"]] = document["count"]-1
@@ -28,15 +28,15 @@ def engagementRate():
         })
     metrics = ["follower_count", "reach", "impressions"]
     engagements = ["likes","comments","shares","saves"]
-    trueRate = document["engagement_rate"]
-    bestMetric = ""
     for document in results:
+        trueRate = document["engagement_rate"]
+        bestMetric = ""
         totalEngagement = 0.0
         for engagement in engagements:
             totalEngagement += document[engagement]
         engagementRate = 0.0
         for metric in metrics:
-            tempRate = totalEngagement / document["metric"]
+            tempRate = totalEngagement / document[metric]
             if (abs(tempRate - trueRate) < abs(engagementRate - trueRate)):
                 engagementRate = tempRate
                 bestMetric = metric
@@ -45,7 +45,7 @@ def engagementRate():
 
 # return total data metric and average data metric for a certain specification
 def makeGraphic(limit1, limit2, specification, metric):
-    if limit != "General":
+    if limit1 != "General":
         filterType = limit1
         filter = limit2
         pipeline = [
@@ -64,7 +64,7 @@ def makeGraphic(limit1, limit2, specification, metric):
 
     avgData = copy.deepcopy(data)
     for document in avgData:
-        if limit != "General":
+        if limit1 != "General":
             count = mongo.posts.count_documents({filterType: filter, specification: document[specification]})
         else:
             count = mongo.posts.count_documents({specification: document[specification]})

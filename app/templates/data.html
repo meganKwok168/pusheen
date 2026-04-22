@@ -20,7 +20,7 @@
 </head>
 <body>
    <a href="/logout" style="color: #c9a8ff; text-decoration: none; margin: 0 10px;"> Logout </a> ✦
-    <h2>{{ Limit }} visualization</h2>
+    <h2>{{ Limit1 }} / {{ Limit2 }} visualization</h2>
     <h2>{{ Specification }} v. {{ Metric }}</h2>
   <div id="scatter"></div>
     <div id="avg"></div>
@@ -76,11 +76,12 @@
 
 <script src="https://d3js.org/d3.v7.min.js"></script>
     <script>
-        const limit = {{ Limit | tojson }};
+        const limit1 = {{ Limit1 | tojson }};
+        const limit2 = {{ Limit2 | tojson }};
         const metric = {{ Metric | tojson }};
         const specification = {{ Specification | tojson }};
 
-        fetch(`/api/data?limit=${encodeURIComponent(limit)}&metric=${encodeURIComponent(metric)}&specification=${encodeURIComponent(specification)}`)
+        fetch(`/api/data?limit1=${encodeURIComponent(limit1)}&limit2=${encodeURIComponent(limit2)}&metric=${encodeURIComponent(metric)}&specification=${encodeURIComponent(specification)}`)
             .then(res => res.json())
             .then(data => {
                 drawScatter(data.scatter, specification, metric, "#scatter", "All Data");

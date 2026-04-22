@@ -151,6 +151,15 @@ HOME STRETCH CHECKLIST:
 * UI/UX :: Megan, Artemis
 ====================================
 
+NOTABLE DESIGN REVISIONS:
+------------------------------------
+* Change of general site design, going for a more comparison of data approach as opposed to simulations
+* deleting of data.js (now handled in the html files instead)
+* Chart.js --> D3.js
+* Change of homepage (index.html) structure, now contains the inquiry leading up to graph generation
+* addition of mongoSetup.py 
+====================================
+
 ### FEATURE SPOTLIGHT
 * JS in index.html -- makes the site more engaging
 * got MongoDB to work after many days

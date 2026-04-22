@@ -20,7 +20,7 @@
 </head>
 <body>
     <nav style="display:flex; align-items:center; justify-content:space-between; padding: 12px 24px; background:#1a1a2e; border-bottom: 1px solid #2e2e4e; margin-bottom: 24px;">
-        <span style="color:#c9a8ff; font-size:1.1rem; font-weight:600; letter-spacing:0.05em;">📊 Instagram Analytics</span>
+        <span style="color:#c9a8ff; font-size:1.1rem; font-weight:600; letter-spacing:0.05em;">Instagram Analytics</span>
         <a href="/logout" style="display:inline-block; padding: 7px 18px; background:transparent; color:#c9a8ff; border: 1px solid #c9a8ff; border-radius:6px; text-decoration:none; font-size:0.875rem;"
            onmouseover="this.style.background='#c9a8ff22'" onmouseout="this.style.background='transparent'">Logout</a>
     </nav>
@@ -97,10 +97,19 @@ function drawBar(data, x, y, container, title) {
     const width  = 640 - margin.left - margin.right;
     const height = 420 - margin.top  - margin.bottom;
 
-    const svg = d3.select(container).append("svg")
+    const svgRoot = d3.select(container).append("svg")
         .attr("width",  width  + margin.left + margin.right)
-        .attr("height", height + margin.top  + margin.bottom)
-      .append("g")
+        .attr("height", height + margin.top  + margin.bottom);
+
+    // clipPath prevents bars from ever painting outside the plot area
+    const clipId = container.replace("#","") + "-clip";
+    svgRoot.append("defs").append("clipPath")
+        .attr("id", clipId)
+      .append("rect")
+        .attr("x", 0).attr("y", 0)
+        .attr("width", width).attr("height", height);
+
+    const svg = svgRoot.append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
     // Title
@@ -110,23 +119,23 @@ function drawBar(data, x, y, container, title) {
         .style("font-size", "14px").style("font-weight", "600")
         .text(title);
 
-    // Sort data for readability (descending by metric value)
+    // Sort data descending by metric value
     data = [...data].sort((a, b) => b[y] - a[y]);
 
-    // X axis — always band (bars need discrete categories)
     const xScale = d3.scaleBand()
         .domain(data.map(d => String(d[x])))
         .range([0, width])
         .padding(0.25);
 
-    // Y axis — always start from 0 so bars never clip behind the axis
     const yScale = d3.scaleLinear()
         .domain([0, d3.max(data, d => d[y]) * 1.08])
         .nice()
         .range([height, 0]);
 
-    // Bars
-    svg.selectAll("rect")
+    // Bars — clipped so they cannot overflow the plot background
+    svg.append("g")
+        .attr("clip-path", `url(#${clipId})`)
+      .selectAll("rect")
         .data(data)
         .enter().append("rect")
         .attr("x", d => xScale(String(d[x])))
@@ -136,7 +145,7 @@ function drawBar(data, x, y, container, title) {
         .attr("fill", "#7c5cbf")
         .attr("rx", 3);
 
-    // X axis with rotated labels — extra bottom margin accommodates them
+    // X axis
     svg.append("g")
         .attr("transform", `translate(0,${height})`)
         .call(d3.axisBottom(xScale))
@@ -150,7 +159,7 @@ function drawBar(data, x, y, container, title) {
     svg.append("g")
         .call(d3.axisLeft(yScale).ticks(6).tickFormat(d3.format("~s")));
 
-    // X axis label — placed below rotated tick labels using full bottom margin
+    // X axis label
     svg.append("text")
         .attr("x", width / 2)
         .attr("y", height + margin.bottom - 8)
@@ -158,7 +167,7 @@ function drawBar(data, x, y, container, title) {
         .style("font-size", "12px")
         .text(x);
 
-    // Y axis label — rotated, centred on axis height
+    // Y axis label
     svg.append("text")
         .attr("transform", "rotate(-90)")
         .attr("x", -height / 2)
@@ -167,6 +176,79 @@ function drawBar(data, x, y, container, title) {
         .style("font-size", "12px")
         .text(y);
 }
+
+// ── Dropdown logic ────────────────────────────────────────────────────────────
+const choices = [
+    {"firstLimit": "account_type",       "nextLimits": ["brand","creator"]},
+    {"firstLimit": "media_type",          "nextLimits": ["reel","image","carousel"]},
+    {"firstLimit": "content_category",    "nextLimits": ["Technology","Fitness","Beauty","Music","Photography","Food","Lifestyle","Travel","Fashion","Comedy"]},
+    {"firstLimit": "traffic_source",      "nextLimits": ["Home Feed","Hashtags","Reels Feed","External","Profile","Explore"]},
+    {"firstLimit": "has_call_to_action",  "nextLimits": ["1","0"]},
+    {"firstLimit": "post_hour",           "nextLimits": ["6","15","16","3","9","8","18","5","11","10","14","19","13","20","4","21","7","1","2","0","22","12","23","17"]},
+    {"firstLimit": "day_of_week",         "nextLimits": ["Saturday","Friday","Thursday","Tuesday","Sunday","Monday","Wednesday"]},
+    {"firstLimit": "caption_length",      "nextLimits": ["100","122","115","112","111","132","118","114","110","121","116","123","124","133","119","107","135","129","103","109","128","117","147","106","101","126","95","130","142","125","93","141","104","131","144","120","108","134","127","136","138","151","137","105","96","99","113","139","87","102","140","143","148","156","92","153","146","94","152","90","91","149","145","97","98","150","157","155","88","154","161","80","82","165","89","85","70","159","86","84","163","158","79","83","160","166","81"]},
+    {"firstLimit": "hashtags_count",      "nextLimits": ["7","5","8","9","6","14","4","2","11","12","10","13","3","16","15","20","1","18","17","0","21","19"]},
+];
+
+function makeSecondLimit(limit) {
+    let st = `<option value="" disabled selected>Further limit...</option>`;
+    const entry = choices.find(c => c.firstLimit === limit);
+    if (entry) entry.nextLimits.forEach(v => { st += `<option value="${v}">${v}</option>`; });
+    document.getElementById("limit2").innerHTML = st;
+}
+
+function makeSpecification(already) {
+    let st = `<option value="" disabled selected>Choose specification...</option>`;
+    choices.forEach(c => {
+        if (c.firstLimit !== already) st += `<option value="${c.firstLimit}">${c.firstLimit}</option>`;
+    });
+    document.getElementById("specification").innerHTML = st;
+}
+
+// Hide dropdowns initially; metric keeps its hardcoded options
+document.getElementById("limit2").style.display = "none";
+document.getElementById("specification").style.display = "none";
+document.getElementById("metric").style.display = "none";
+document.getElementById("slash").style.display = "none";
+
+document.getElementById("limit1").addEventListener("change", function() {
+    if (this.value !== "General") {
+        makeSecondLimit(this.value);
+        document.getElementById("limit2").style.display = "flex";
+        document.getElementById("slash").style.display = "flex";
+        document.getElementById("specification").style.display = "none";
+        document.getElementById("metric").style.display = "none";
+        document.getElementById("soumettre").innerHTML = "";
+    } else {
+        document.getElementById("limit2").style.display = "none";
+        document.getElementById("slash").style.display = "none";
+        makeSpecification("General");
+        document.getElementById("specification").style.display = "flex";
+    }
+});
+
+document.getElementById("limit2").addEventListener("change", function() {
+    makeSpecification(document.getElementById("limit1").value);
+    document.getElementById("specification").style.display = "flex";
+    document.getElementById("metric").style.display = "none";
+    document.getElementById("soumettre").innerHTML = "";
+});
+
+document.getElementById("specification").addEventListener("change", function() {
+    document.getElementById("metric").style.display = "flex";
+    document.getElementById("soumettre").innerHTML = "";
+});
+
+document.getElementById("metric").addEventListener("change", function() {
+    document.getElementById("soumettre").innerHTML = `<button type="button" id="submitButton">Submit</button>`;
+    document.getElementById("submitButton").addEventListener("click", function() {
+        const l1 = document.getElementById("limit1").value;
+        const l2 = document.getElementById("limit2").value || "General";
+        const spec = document.getElementById("specification").value;
+        const met = document.getElementById("metric").value;
+        window.location.href = `/data?limit1=${encodeURIComponent(l1)}&limit2=${encodeURIComponent(l2)}&specification=${encodeURIComponent(spec)}&metric=${encodeURIComponent(met)}`;
+    });
+});
     </script>
 
 </body>

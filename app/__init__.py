@@ -12,6 +12,8 @@ mongo = client["database"]
 #login
 @app.route("/", methods=["GET", "POST"])
 def login():
+    if 'username' in session:
+        return redirect(url_for('index'))
     if request.method == 'POST':
         username = request.form["username"]
         password = request.form["password"]
@@ -30,6 +32,8 @@ def login():
 #createaccount
 @app.route("/createaccount", methods = ['GET', "POST"])
 def set_user():
+    if 'username' in session:
+        return redirect(url_for('index'))
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -52,11 +56,15 @@ def logout():
 #main
 @app.route('/index', methods=['GET', 'POST'])
 def index():
+    if 'username' not in session:
+        return redirect(url_for('login'))
     return render_template("index.html")
 
 #handling data
 @app.route('/data')
 def getGraphic():
+    if 'username' not in session:
+        return redirect(url_for('login'))
     limit1=request.args.get('limit1')
     limit2=request.args.get('limit2')
     metric = request.args.get('metric')
@@ -66,6 +74,8 @@ def getGraphic():
 
 @app.route('/api/data')
 def getGraphicData():
+    if 'username' not in session:
+        return jsonify({"error": "Unauthorized"}), 401
     limit1 = request.args.get('limit1')
     limit2 = request.args.get('limit2')
     metric = request.args.get('metric')

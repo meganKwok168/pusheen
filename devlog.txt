@@ -6,7 +6,7 @@ P04: Makers Makin' It, Act II -- The Seequel
 * Each entry should begin with the following format: firstL -- TIMESTAMP ( e.g.: topherM -- 1999-12-31 23:59 )
 * Most recent entry at the bottom, separated from previous with a newline
 
-meganK -- 2026-03-30 07:28
+meganK -- 2026-03-26 7:43
 DD CREATION
 * NEW CHANGES:
     - created intial design doc
@@ -92,7 +92,13 @@ MONGO DATABASE ACCESSING
 sophiaC -- 2026-04-20 11:43
 CSS 
 * NEW CHANGES: 
-	- Update Css for Login and Createaccount 
+	- Update Css for Login and Createaccount
+
+joyceL -- 2026-04-20 11:43
+CSS AND SVG
+* NEW CHANGES:
+	- Worked on CSS for login and createuser pages
+	- Updated SVG
 
 evanK -- 2026-04-20 11:44
 MONGO DATABASE ACCESSING

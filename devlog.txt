@@ -31,18 +31,39 @@ REQUIREMENTS
 * NEW CHANGES:
     - Requirements added
 
-meganK -- 2026-04-15 20:28
-D3 AND SCATTER PLOTS
+joyceL -- 2026-04-01 11:43
+JS AND HTML
 * NEW CHANGES:
-    - added in d3 functionality
-    - updated data.html
-	- created scatter plots for data visualisation
+	- Worked on JS for index.html
+	- Worked on data.html and index.html
+
+sophiaC -- 2026-04-01 11:44
+LOGIN AND CREATEACCOUNT
+* NEW CHANGES:
+	- Started login and signup html pages
+
+evanK -- 2026-04-01 11:44
+MONGO SETUP
+* NEW CHANGES:
+	- Worked on getting local MongoDB running
+
+meganK -- 2026-04-01 11:44
+HTML
+* NEW CHANGES:
+    - Started data.html
+    - Started index.html
 
 joyceL -- 2026-04-16 11:43
 CSS AND SVG
 * NEW CHANGES:
 	- Completed basic set up and small JS for index.html
 	- Begin set up SVG object to enhance site appearance
+
+meganK -- 2026-04-16 11:44
+HTML AND D3
+* NEW CHANGES:
+    - worked on data.html and index.html
+	- started incorporating d3 for data visualization
 
 sophiaC -- 2026-04-16 11:44
 LOGIN AND CREATEACCOUNT

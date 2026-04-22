@@ -19,7 +19,11 @@
     </style>
 </head>
 <body>
-   <a href="/logout" style="color: #c9a8ff; text-decoration: none; margin: 0 10px;"> Logout </a> ✦
+    <nav style="display:flex; align-items:center; justify-content:space-between; padding: 12px 24px; background:#1a1a2e; border-bottom: 1px solid #2e2e4e; margin-bottom: 24px;">
+        <span style="color:#c9a8ff; font-size:1.1rem; font-weight:600; letter-spacing:0.05em;">📊 Instagram Analytics</span>
+        <a href="/logout" style="display:inline-block; padding: 7px 18px; background:transparent; color:#c9a8ff; border: 1px solid #c9a8ff; border-radius:6px; text-decoration:none; font-size:0.875rem;"
+           onmouseover="this.style.background='#c9a8ff22'" onmouseout="this.style.background='transparent'">Logout</a>
+    </nav>
     <h2>{{ Limit1 }} / {{ Limit2 }} visualization</h2>
     <h2>{{ Specification }} v. {{ Metric }}</h2>
   <div id="scatter"></div>
@@ -84,64 +88,84 @@
         fetch(`/api/data?limit1=${encodeURIComponent(limit1)}&limit2=${encodeURIComponent(limit2)}&metric=${encodeURIComponent(metric)}&specification=${encodeURIComponent(specification)}`)
             .then(res => res.json())
             .then(data => {
-                drawScatter(data.scatter, specification, metric, "#scatter", "All Data");
-                drawScatter(data.avg, specification, metric, "#avg", "Averages");
+                drawBar(data.scatter, specification, metric, "#scatter", "All Data (Total)");
+                drawBar(data.avg, specification, metric, "#avg", "Averages");
             });
-function drawScatter(data, x, y, container, title) {
-    const width = 600, height = 400;
-    const margin = { top: 30, right: 20, bottom: 80, left: 60 };
+
+function drawBar(data, x, y, container, title) {
+    const margin = { top: 40, right: 30, bottom: 110, left: 80 };
+    const width  = 640 - margin.left - margin.right;
+    const height = 420 - margin.top  - margin.bottom;
 
     const svg = d3.select(container).append("svg")
-        .attr("width", width).attr("height", height);
+        .attr("width",  width  + margin.left + margin.right)
+        .attr("height", height + margin.top  + margin.bottom)
+      .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
 
+    // Title
     svg.append("text")
-        .attr("x", width / 2).attr("y", margin.top / 2)
+        .attr("x", width / 2).attr("y", -16)
         .attr("text-anchor", "middle")
+        .style("font-size", "14px").style("font-weight", "600")
         .text(title);
 
-    const isText = typeof data[0][x] === "string";
+    // Sort data for readability (descending by metric value)
+    data = [...data].sort((a, b) => b[y] - a[y]);
 
-    const xScale = isText
-        ? d3.scaleBand()
-            .domain(data.map(d => d[x]))
-            .range([margin.left, width - margin.right])
-            .padding(0.2)
-        : d3.scaleLinear()
-            .domain(d3.extent(data, d => d[x]))
-            .range([margin.left, width - margin.right]);
+    // X axis — always band (bars need discrete categories)
+    const xScale = d3.scaleBand()
+        .domain(data.map(d => String(d[x])))
+        .range([0, width])
+        .padding(0.25);
 
+    // Y axis — always start from 0 so bars never clip behind the axis
     const yScale = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d[y])])
-        .range([height - margin.bottom, margin.top]);
+        .domain([0, d3.max(data, d => d[y]) * 1.08])
+        .nice()
+        .range([height, 0]);
 
-    svg.selectAll("circle")
+    // Bars
+    svg.selectAll("rect")
         .data(data)
-        .enter().append("circle")
-        .attr("cx", d => isText ? xScale(d[x]) + xScale.bandwidth() / 2 : xScale(d[x]))
-        .attr("cy", d => yScale(d[y]))
-        .attr("r", 4)
-        .attr("fill", "steelblue")
-        .attr("opacity", 0.6);
+        .enter().append("rect")
+        .attr("x", d => xScale(String(d[x])))
+        .attr("y", d => yScale(d[y]))
+        .attr("width", xScale.bandwidth())
+        .attr("height", d => height - yScale(d[y]))
+        .attr("fill", "#7c5cbf")
+        .attr("rx", 3);
 
+    // X axis with rotated labels — extra bottom margin accommodates them
     svg.append("g")
-        .attr("transform", `translate(0, ${height - margin.bottom})`)
+        .attr("transform", `translate(0,${height})`)
         .call(d3.axisBottom(xScale))
         .selectAll("text")
-        .attr("transform", "rotate(-35)")
-        .style("text-anchor", "end");
+            .attr("transform", "rotate(-40)")
+            .style("text-anchor", "end")
+            .attr("dx", "-0.5em")
+            .attr("dy", "0.25em");
 
+    // Y axis
     svg.append("g")
-        .attr("transform", `translate(${margin.left}, 0)`)
-        .call(d3.axisLeft(yScale));
+        .call(d3.axisLeft(yScale).ticks(6).tickFormat(d3.format("~s")));
 
+    // X axis label — placed below rotated tick labels using full bottom margin
     svg.append("text")
-        .attr("x", width / 2).attr("y", height - 5)
-        .attr("text-anchor", "middle").text(x);
+        .attr("x", width / 2)
+        .attr("y", height + margin.bottom - 8)
+        .attr("text-anchor", "middle")
+        .style("font-size", "12px")
+        .text(x);
 
+    // Y axis label — rotated, centred on axis height
     svg.append("text")
         .attr("transform", "rotate(-90)")
-        .attr("x", -height / 2).attr("y", 15)
-        .attr("text-anchor", "middle").text(y);
+        .attr("x", -height / 2)
+        .attr("y", -margin.left + 16)
+        .attr("text-anchor", "middle")
+        .style("font-size", "12px")
+        .text(y);
 }
     </script>
 

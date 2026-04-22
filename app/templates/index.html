@@ -109,14 +109,134 @@
     <title>Get Data Visualization</title>
     <link rel="stylesheet" href="{{url_for('static',filename='styles.css')}}">
 </head>
+
+<style>
+.limit1{
+
+}
+
+
+.limitRow{
+    display: flex;
+    align-items: center;
+    gap:8px;
+}
+</style>
+
 <body>
     <h2>Get Data Visualization</h2>
-    <form action="/data">
-        <input type="text", name="limit" id="limit" placeholder="What data do you want to limit your inquiry to?" required>
-        <input type="text" name="specification" id="specification" placeholder="Enter a specification" required>
-        <input type="text" name="metric" id="metric" placeholder="Enter a Metric" required>
-        <button type="submit">Submit</button>
-    </form>
-    
+<br>
+<div id="limitRow">
+<select name="limit1" id="limit1">
+  <option value="" disabled selected>Choose a limit...</option>
+  <option value="General">general (all data)</option>
+  <option value="account_type">account type</option>
+  <option value="media_type">media type</option>
+  <option value="content_category">content category</option>
+  <option value="traffic_source">traffic source</option>
+  <option value="has_call_to_action">has call to action</option>
+  <option value="post_hour">post hour</option>
+  <option value="day_of_week">day of week</option>
+  <option value="caption_length">caption length</option>
+  <option value="hashtags_count">hashtags count</option>
+</select>
+<label for="limit2"class="slash" id="slash">/</label>
+
+
+<select name="limit2" id="limit2" class="limit2">
+
+</select>
+</div>
+
+<br>
+<select name="specification" id="specification" class="specification">
+
+</select>
+
+
+<br>
+<select name="metric" id="metric" class="metric">
+  <option value="" disabled selected>Choose metric...</option>
+  <option value="reach">reach</option>
+  <option value="follower_count">follower count</option>
+  <option value="engagement_rate">engagement rate</option>
+  <option value="impressions">impressions</option>
+  <option value="followers_gained">followers gained</option>
+</select>
+
+<div id="soumettre"></div>
 </body>
 </html>
+
+<script type="text/javascript">
+
+const choices = [
+{"firstLimit": "account_type", "nextLimits": ['brand', 'creator']},{"firstLimit": "media_type", "nextLimits": ['reel', 'image', 'carousel']},{"firstLimit": "content_category", "nextLimits": ['Technology', 'Fitness', 'Beauty', 'Music', 'Photography', 'Food', 'Lifestyle', 'Travel', 'Fashion', 'Comedy']},{"firstLimit": "traffic_source", "nextLimits": ['Home Feed', 'Hashtags', 'Reels Feed', 'External', 'Profile', 'Explore']},{"firstLimit": "has_call_to_action", "nextLimits": ['1', '0']},{"firstLimit": "post_hour", "nextLimits": ['6', '15', '16', '3', '9', '8', '18', '5', '11', '10', '14', '19', '13', '20', '4', '21', '7', '1', '2', '0', '22', '12', '23', '17']},{"firstLimit": "day_of_week", "nextLimits": ['Saturday', 'Friday', 'Thursday', 'Tuesday', 'Sunday', 'Monday', 'Wednesday']},{"firstLimit": "caption_length", "nextLimits": ['100', '122', '115', '112', '111', '132', '118', '114', '110', '121', '116', '123', '124', '133', '119', '107', '135', '129', '103', '109', '128', '117', '147', '106', '101', '126', '95', '130', '142', '125', '93', '141', '104', '131', '144', '120', '108', '134', '127', '136', '138', '151', '137', '105', '96', '99', '113', '139', '87', '102', '140', '143', '148', '156', '92', '153', '146', '94', '152', '90', '91', '149', '145', '97', '98', '150', '157', '155', '88', '154', '161', '80', '82', '165', '89', '85', '70', '159', '86', '84', '163', '158', '79', '83', '160', '166', '81']},{"firstLimit": "hashtags_count", "nextLimits": ['7', '5', '8', '9', '6', '14', '4', '2', '11', '12', '10', '13', '3', '16', '15', '20', '1', '18', '17', '0', '21', '19']},
+
+]
+
+document.getElementById("limit2").style.display="none"
+document.getElementById("specification").style.display="none"
+document.getElementById("metric").style.display="none"
+document.getElementById("slash").style.display="none"
+
+document.getElementById("limit1").addEventListener("change",function(e){
+    let selectedValue = this.value;
+
+    if (selectedValue != "General"){
+        makeSecondLimit(selectedValue);    
+    document.getElementById("limit2").style.display="flex";
+    document.getElementById("slash").style.display="flex";
+    document.getElementById("specification").style.display="none";
+    }
+    else{
+        document.getElementById("limit2").style.display="none";
+    document.getElementById("slash").style.display="none";
+        document.getElementById("specification").style.display="flex";
+    }
+    
+});
+
+document.getElementById("limit2").addEventListener("change",function(e){
+    let selectedValue=document.getElementById("limit1").value
+    makeSpecification(selectedValue)
+    document.getElementById("specification").style.display="flex";
+});
+
+document.getElementById("specification").addEventListener("change",function(e){
+    document.getElementById("metric").style.display="flex";
+});
+
+document.getElementById("metric").addEventListener("change",function(e){
+    st=`<button type="submit" id="submitButton">Submit</button>`;
+    document.getElementById("soumettre").innerHTML=st;
+});
+
+document.getElementById("submitButton").addEventListener("change",function(e){
+    
+});
+
+function makeSecondLimit(limit){
+    st=`  <option value="" disabled selected>Further limit...</option>`;
+    limitIndex = 0;
+    while (limitIndex < choices.length && choices[limitIndex].firstLimit != limit){
+        limitIndex++;    
+    }
+    for (let i=0; i<choices[limitIndex].nextLimits.length; i++){
+        st += `<option value="${choices[limitIndex].nextLimits[i]}">${choices[limitIndex].nextLimits[i]}</option>`;
+    }
+    document.getElementById("limit2").innerHTML=st;
+}
+
+function makeSpecification(already){
+        st=`<option value="" disabled selected>Choose specification...</option>`;
+    for (let i=0; i<choices.length; i++){
+        if( choices[i].firstLimit != already){
+            st += `<option value="${choices[i].firstLimit}">${choices[i].firstLimit}</option>`
+    }
+
+    }
+    document.getElementById("specification").innerHTML=st
+}
+
+</script>

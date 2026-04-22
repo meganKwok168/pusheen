@@ -102,21 +102,71 @@ function drawScatter(data, x, y, container, title) {
     <title>Data Visualization</title>
     <link rel="stylesheet" href="{{url_for('static',filename='styles.css')}}">
     <style>
+        .limit1{
+
+        }
+
+
+        .limitRow{
+            display: flex;
+            align-items: center;
+            gap:8px;
+        }
     </style>
 </head>
 <body>
    <a href="/logout" style="color: #c9a8ff; text-decoration: none; margin: 0 10px;"> Logout </a> ✦
     <h2>{{ Limit }} visualization</h2>
     <h2>{{ Specification }} v. {{ Metric }}</h2>
-
   <div id="scatter"></div>
     <div id="avg"></div>
-    <form action="/data">
+    <br>
+    <div id="limitRow">
+    <select name="limit1" id="limit1">
+    <option value="" disabled selected>Choose a limit...</option>
+    <option value="General">general (all data)</option>
+    <option value="account_type">account type</option>
+    <option value="media_type">media type</option>
+    <option value="content_category">content category</option>
+    <option value="traffic_source">traffic source</option>
+    <option value="has_call_to_action">has call to action</option>
+    <option value="post_hour">post hour</option>
+    <option value="day_of_week">day of week</option>
+    <option value="caption_length">caption length</option>
+    <option value="hashtags_count">hashtags count</option>
+    </select>
+    <label for="limit2"class="slash" id="slash">/</label>
+
+
+    <select name="limit2" id="limit2" class="limit2">
+
+    </select>
+    </div>
+
+    <br>
+    <select name="specification" id="specification" class="specification">
+
+    </select>
+
+
+    <br>
+    <select name="metric" id="metric" class="metric">
+    <option value="" disabled selected>Choose metric...</option>
+    <option value="reach">reach</option>
+    <option value="follower_count">follower count</option>
+    <option value="engagement_rate">engagement rate</option>
+    <option value="impressions">impressions</option>
+    <option value="followers_gained">followers gained</option>
+    </select>
+
+    <div id="soumettre"></div>
+
+    <!-- <form action="/data">
         <input type="text", name="limit" id="limit" placeholder="What data do you want to limit your inquiry to?" required>
         <input type="text" name="specification" id="specification" placeholder="Enter a specification" required>
         <input type="text" name="metric" id="metric" placeholder="Enter a Metric" required>
         <button type="submit">Submit</button>
-    </form>
+    </form> -->
 
 
 

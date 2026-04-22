@@ -44,10 +44,10 @@ def engagementRate():
 #engagementRate
 
 # return total data metric and average data metric for a certain specification
-def makeGraphic(limit, specification, metric):
+def makeGraphic(limit1, limit2, specification, metric):
     if limit != "General":
-        filterType = limit.split('/')[0]
-        filter = limit.split('/')[1]
+        filterType = limit1
+        filter = limit2
         pipeline = [
             { "$match": { filterType: filter } },
             { "$group": { "_id": ("$"+specification), metric: { "$sum": ("$"+metric) } } }

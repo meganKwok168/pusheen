@@ -57,11 +57,12 @@ def index():
 #handling data
 @app.route('/data')
 def getGraphic():
-    limit=request.args.get('limit')
+    limit1=request.args.get('limit1')
+    limit2=request.args.get('limit2')
     metric = request.args.get('metric')
     specification = request.args.get('specification')
-    data = makeGraphic(limit, specification, metric)
-    return render_template("data.html", graph=data, Metric = metric, Specification = specification, Limit=limit)
+    data = makeGraphic(limit1, limit2, specification, metric)
+    return render_template("data.html", graph=data, Metric = metric, Specification = specification, Limit1=limit1,Limit2=limit2)
 
 @app.route('/api/data')
 def getGraphicData():

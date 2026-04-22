@@ -7,6 +7,13 @@ P04: Makers Makin' It, Act II -- The Seequel
 * Most recent entry at the bottom, separated from previous with a newline
 
 meganK -- 2026-03-30 07:28
+DD CREATION
+* NEW CHANGES:
+    - created intial design doc
+	- created website architecture
+	- allocated tasks
+
+meganK -- 2026-03-30 07:28
 INITIAL DD REVIEW
 * NEW CHANGES:
     - revised component map arrows
@@ -19,16 +26,88 @@ FLASK APP AND README
     - Created a basic working app, served locally with Flask
     - Added a sumamry of project to root README
 
+joyceL -- 2026-03-31 22:34
+REQUIREMENTS
+* NEW CHANGES:
+    - Requirements added
+
+meganK -- 2026-04-15 20:28
+D3 AND SCATTER PLOTS
+* NEW CHANGES:
+    - added in d3 functionality
+    - updated data.html
+	- created scatter plots for data visualisation
+
 joyceL -- 2026-04-16 11:43
 CSS AND SVG
 * NEW CHANGES:
-		- Completed basic set up and small JS for index.html
-		- Begin set up SVG object to enhance site appearance
+	- Completed basic set up and small JS for index.html
+	- Begin set up SVG object to enhance site appearance
+
+sophiaC -- 2026-04-16 11:44
+LOGIN AND CREATEACCOUNT
+* NEW CHANGES:
+	- Wrote __init__.py methods for login and createaccount
+	- Started login and signup html pages
+
+evanK -- 2026-04-16 11:44
+MONGO SETUP SCRIPT
+* NEW CHANGES:
+	- Started script to setup mongo database
+	- Wrote code to pull data from Kaggle
+
+evanK -- 2026-04-17 20:44
+MONGO SETUP SCRIPT
+* NEW CHANGES:
+	- Finished script to setup mongo database
+	- Updated requirements.txt
+
+evanK -- 2026-04-19 21:44
+MONGO DATABASE ACCESSING
+* NEW CHANGES:
+	- Rewrote engagementRate and listGenres in data.py
+	- Rewrote user database accessor/mutator functions in __init__.py
 
 sophiaC -- 2026-04-20 11:43
 CSS 
 * NEW CHANGES: 
-		- Update Css for Login and Createaccount 
+	- Update Css for Login and Createaccount 
+
+evanK -- 2026-04-20 11:44
+MONGO DATABASE ACCESSING
+* NEW CHANGES:
+	- Rewrote makeGraphic in data.py
+	- Updated all data retreival to use mongodb
+	- Removed csv file and all methods using csv
+
+meganK -- 2026-04-20 11:43
+DATA.HTML AND INDEX.HTML
+* NEW CHANGES:
+    - updated index.html to route users to data visualization
+    - updated data.html
+
+evanK -- 2026-04-21 11:43
+MONGODB AND LOGOUT
+* NEW CHANGES:
+	- Changed how data is returned from makeGraphic
+	- Fixed logout page routing
+
+sophiaC -- 2026-04-21 11:44
+LOGOUT AND SECURITY KEY
+* NEW CHANGES: 
+	- Added logout button and functionality
+	- Added security key
+
+meganK -- 2026-04-21 11:44
+DATA VISUALIZATION
+* NEW CHANGES:
+    - fixed error where data was printed instead of visualized
+
+meganK -- 2026-04-21 21:47
+DATA VISUALIZATION
+* NEW CHANGES:
+    - dummy-proofed site
+	- improved UX with drop-down menu for data visualization choices
 
 HOME STRETCH CHECKLIST:
 ------------------------------------

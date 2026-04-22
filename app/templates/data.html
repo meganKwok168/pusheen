@@ -124,7 +124,7 @@ function drawBar(data, x, y, container, title) {
 
     const xScale = d3.scaleBand()
         .domain(data.map(d => String(d[x])))
-        .range([0, width])
+        .range([0, width - 12])
         .padding(0.25);
 
     const yScale = d3.scaleLinear()

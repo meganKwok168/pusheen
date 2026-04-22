@@ -50,11 +50,11 @@ def makeGraphic(limit1, limit2, specification, metric):
         filter = limit2
         pipeline = [
             { "$match": { filterType: filter } },
-            { "$group": { "_id": ("$"+specification), metric: { "$sum": ("$"+metric) } } }
+            { "$group": { "_id": ("$"+specification), **{metric: { "$sum": ("$"+metric) }} } }
         ]
     else:
         pipeline = [
-            { "$group": { "_id": ("$"+specification), metric: { "$sum": ("$"+metric) } } }
+            { "$group": { "_id": ("$"+specification), **{metric: { "$sum": ("$"+metric) }} } }
         ]
     aggCursor = list(mongo.posts.aggregate(pipeline))
     data = list(aggCursor)

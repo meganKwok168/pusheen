@@ -150,3 +150,11 @@ HOME STRETCH CHECKLIST:
 * CSS :: Sophia, Joyce
 * UI/UX :: Megan, Artemis
 ====================================
+
+### FEATURE SPOTLIGHT
+* JS in index.html -- makes the site more engaging
+* got MongoDB to work after many days
+* clean d3 graphs
+
+### KNOWN BUGS/ISSUES
+* no known bugs/issues

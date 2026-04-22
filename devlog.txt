@@ -136,6 +136,13 @@ DATA VISUALIZATION
     - dummy-proofed site
 	- improved UX with drop-down menu for data visualization choices
 
+evanK -- 2026-04-22 01:03
+FINAL FIXES
+* NEW CHANGES:
+    - Added Megan's work to website
+	- Fixed mongo syntax to fix issue with limit
+	- Fixed logout button not rendering on index.html
+
 HOME STRETCH CHECKLIST:
 ------------------------------------
 * set up mongodb and connect relevant csvs :: Evan, Sophia
